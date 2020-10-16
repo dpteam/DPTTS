@@ -6,7 +6,7 @@ namespace DPTTS.Config
     {
         public static void Config_Read()
         {
-            IniFile INI = new IniFile("config.ini");
+            IniFile INI = new IniFile("DPTTS.INI");
             if (INI.KeyExists("DPTTS", "Token"))
                 ConfigManager.Token = (string)INI.ReadINI("DPTTS", "Token");
             else

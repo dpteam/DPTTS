@@ -26,8 +26,13 @@ namespace DPTTS
             Console.ForegroundColor = ConsoleColor.White;
             try
             {
-                ConfigReader.Config_Read();
-                api.Authorize(new ApiAuthParams() { AccessToken = ConfigManager.Token });
+                // Work in Progress...
+                //ConfigReader.Config_Read();
+                IniFile INI = new IniFile("DPTTS.INI");
+                api.Authorize(new ApiAuthParams() { AccessToken = (string)INI.ReadINI("DPTTS", "Token")});
+                // Debug Show Token
+                //Trace.Write((string)INI.ReadINI("DPTTS", "Token"));
+                Console.ReadKey();
             }
             catch (Exception value)
             {
