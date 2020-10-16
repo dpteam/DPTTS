@@ -8,13 +8,13 @@ namespace DPTTS.BotCmds
     {
         public static VkApi api = new VkApi();
 
-        public static void SendMessage(string message, long? userID)
+        public static void SendMessage(string message, long? peerID)
         {
             Random rnd = new Random();
             api.Messages.Send(new MessagesSendParams
             {
                 RandomId = rnd.Next(),
-                UserId = userID,
+                PeerId = peerID,
                 Message = message
             });
 
