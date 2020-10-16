@@ -81,6 +81,10 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Config\ConfigManager.cs" />
+    <Compile Include="Config\ConfigWriter.cs" />
+    <Compile Include="Config\IniFile.cs" />
+    <Compile Include="Config\ReadConfig.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
