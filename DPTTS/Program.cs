@@ -1,4 +1,5 @@
-﻿using DPTTS.Config;
+﻿using DPTTS.BotCmds;
+using DPTTS.Config;
 using System;
 using System.Diagnostics;
 using System.Runtime.InteropServices;
@@ -34,6 +35,7 @@ namespace DPTTS
                 api.Authorize(new ApiAuthParams() { AccessToken = (string)INI.ReadINI("DPTTS", "Token")});
                 // Debug Show Token
                 //Trace.Write((string)INI.ReadINI("DPTTS", "Token"));
+                // Часть фич взята с тутора с лолзтим, автор Shellar
                 string GroupID = INI.ReadINI("DPTTS", "GroupID");
                 while (true) // Бесконечный цикл, получение обновлений
                 {
@@ -48,7 +50,7 @@ namespace DPTTS
                             long? userID = a.Message.UserId;
                             if (userMessage == "Привет")
                             {
-                                
+                                MessagesManager.SendMessage("Здарова!", userID);
                             }
                         }
                     }

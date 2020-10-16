@@ -2,13 +2,13 @@
 using VkNet;
 using VkNet.Model.RequestParams;
 
-namespace DPTTS
+namespace DPTTS.BotCmds
 {
     class MessagesManager
     {
         public static VkApi api = new VkApi();
 
-        public void SendMessage(string message, long? userID)
+        public static void SendMessage(string message, long? userID)
         {
             Random rnd = new Random();
             api.Messages.Send(new MessagesSendParams
