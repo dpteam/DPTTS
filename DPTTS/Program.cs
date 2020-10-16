@@ -4,7 +4,9 @@ using System.Diagnostics;
 using System.Runtime.InteropServices;
 using System.Windows;
 using VkNet;
+using VkNet.Exception;
 using VkNet.Model;
+using VkNet.Model.RequestParams;
 
 namespace DPTTS
 {
@@ -32,13 +34,21 @@ namespace DPTTS
                 api.Authorize(new ApiAuthParams() { AccessToken = (string)INI.ReadINI("DPTTS", "Token")});
                 // Debug Show Token
                 //Trace.Write((string)INI.ReadINI("DPTTS", "Token"));
-                Console.ReadKey();
+                string GroupID = INI.ReadINI("DPTTS", "GroupID");
+                while (true) // Бесконечный цикл, получение обновлений
+                {
+                    var s = api.Groups.GetLongPollServer(Convert.ToUInt64(GroupID));
+                    var poll = api.Groups.GetBotsLongPollHistory(new BotsLongPollHistoryParams(){ Server = s.Server, Ts = s.Ts, Key = s.Key, Wait = 25 });
+                    if (poll?.Updates == null) continue; // Проверка на новые события
+                }
             }
             catch (Exception value)
             {
                 try
                 {
                     MessageBox.Show(value.ToString(), "Error");
+                    Trace.WriteLine("[ERROR] " + value.ToString());
+                    Console.ReadKey();
                 }
                 catch
                 {
