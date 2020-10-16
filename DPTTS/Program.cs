@@ -63,11 +63,11 @@ namespace DPTTS
                         {
                             if (a.Type == GroupUpdateType.MessageNew)
                             {
-                                Trace.WriteLine(a.Message.Body);
                                 string userMessage = a.Message.Body.ToLower();
                                 if (userMessage != null)
                                 {
                                     long? peerId = a.Message.PeerId - Convert.ToInt32(2000000000.0);
+                                    Trace.WriteLine("[DEBUG] Сообщение получено от ID: " + peerId + "\nСообщение: " + a.Message.Body);
                                     var payload = a.Message.Payload; // Что это блять
                                     if (userMessage == "привет")
                                     {
@@ -76,7 +76,7 @@ namespace DPTTS
                                     }
                                     else
                                     {
-                                        Trace.WriteLine("[DEBUG] Пришло неизвестное сообщение от пользователя: " + peerId + "\n Сообщение: " + userMessage);
+                                        Trace.WriteLine("[DEBUG] Пришло неизвестное сообщение от пользователя: " + peerId + "\nСообщение: " + userMessage);
                                     }
                                 }
                                 else

@@ -17,7 +17,6 @@ namespace DPTTS.BotCmds
                 PeerId = peerID,
                 Message = message
             });
-
         }
     }
 }
