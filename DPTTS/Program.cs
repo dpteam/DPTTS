@@ -18,11 +18,16 @@ namespace DPTTS
         [STAThread]
         static void Main(string[] args)
         {
+            Console.WriteLine("[CORE] Загрузка кода");
             Marshal.PrelinkAll(typeof(Program));
             Trace.AutoFlush = true;
             Trace.Listeners.Clear();
             Trace.Listeners.Add(new ConsoleTraceListener());
-            Trace.Listeners.Add(new TextWriterTraceListener(System.IO.Path.GetFileNameWithoutExtension(typeof(Program).Assembly.GetName().Name) + ".log"));
+            if (ConfigManager.LoggingEnabled == true)
+            {
+                Trace.Listeners.Add(new TextWriterTraceListener(System.IO.Path.GetFileNameWithoutExtension(typeof(Program).Assembly.GetName().Name) + ".log"));
+                Trace.WriteLine("[INFO] Логирование включено и активно");
+            }
             Process currentProcess = Process.GetCurrentProcess();
             currentProcess.PriorityClass = ProcessPriorityClass.High;
             Console.BackgroundColor = ConsoleColor.Black;
@@ -37,6 +42,7 @@ namespace DPTTS
                 //Trace.Write((string)INI.ReadINI("DPTTS", "Token"));
                 // Часть фич взята с тутора с лолзтим, автор Shellar
                 string GroupID = INI.ReadINI("DPTTS", "GroupID");
+                Trace.WriteLine("[INFO] Авторизация завершена");
                 while (true) // Бесконечный цикл, получение обновлений
                 {
                     var s = api.Groups.GetLongPollServer(Convert.ToUInt64(GroupID));
@@ -46,11 +52,12 @@ namespace DPTTS
                     {
                         if (a.Type == GroupUpdateType.MessageNew)
                         {
-                            string userMessage = a.Message.Body.ToLower();
-                            long? userID = a.Message.UserId;
-                            if (userMessage == "Привет")
+                            string userMessage = a.MessageNew.Message.Body.ToLower(null);
+                            long ? userID = a.MessageNew.Message.UserId;
+                            if (userMessage == "привет")
                             {
                                 MessagesManager.SendMessage("Здарова!", userID);
+                                Trace.WriteLine("[INFO] Сообщение отправлено пользователю с ID: " + userID);
                             }
                         }
                     }

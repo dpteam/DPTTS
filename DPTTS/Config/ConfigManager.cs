@@ -6,8 +6,9 @@ using System.Threading.Tasks;
 
 namespace DPTTS.Config
 {
-    static class ConfigManager
+    class ConfigManager
     {
         public static string Token;
+        public static bool LoggingEnabled = true;
     }
 }
