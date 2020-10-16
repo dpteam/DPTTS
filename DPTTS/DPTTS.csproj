@@ -81,6 +81,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="BotCmds\MessagesManager.cs" />
     <Compile Include="Config\ConfigManager.cs" />
     <Compile Include="Config\ConfigWriter.cs" />
     <Compile Include="Config\IniFile.cs" />

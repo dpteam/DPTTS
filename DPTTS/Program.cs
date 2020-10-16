@@ -4,7 +4,7 @@ using System.Diagnostics;
 using System.Runtime.InteropServices;
 using System.Windows;
 using VkNet;
-using VkNet.Exception;
+using VkNet.Enums.SafetyEnums;
 using VkNet.Model;
 using VkNet.Model.RequestParams;
 
@@ -40,6 +40,18 @@ namespace DPTTS
                     var s = api.Groups.GetLongPollServer(Convert.ToUInt64(GroupID));
                     var poll = api.Groups.GetBotsLongPollHistory(new BotsLongPollHistoryParams(){ Server = s.Server, Ts = s.Ts, Key = s.Key, Wait = 25 });
                     if (poll?.Updates == null) continue; // Проверка на новые события
+                    foreach (var a in poll.Updates)
+                    {
+                        if (a.Type == GroupUpdateType.MessageNew)
+                        {
+                            string userMessage = a.Message.Body.ToLower();
+                            long? userID = a.Message.UserId;
+                            if (userMessage == "Привет")
+                            {
+                                
+                            }
+                        }
+                    }
                 }
             }
             catch (Exception value)
