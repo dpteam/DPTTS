@@ -1,12 +1,17 @@
-﻿using System;
+﻿using DPTTS.Config;
+using System;
 using System.Diagnostics;
 using System.Runtime.InteropServices;
 using System.Windows;
+using VkNet;
+using VkNet.Model;
 
 namespace DPTTS
 {
     class Program
     {
+        public static VkApi api = new VkApi();
+
         [STAThread]
         static void Main(string[] args)
         {
@@ -21,7 +26,8 @@ namespace DPTTS
             Console.ForegroundColor = ConsoleColor.White;
             try
             {
-
+                ConfigReader.Config_Read();
+                api.Authorize(new ApiAuthParams() { AccessToken = ConfigManager.Token });
             }
             catch (Exception value)
             {
