@@ -7,7 +7,7 @@ using System.Runtime.InteropServices;
 using System.Threading;
 using System.Windows;
 using VkNet;
-using VkNet.Enums.SafetyEnums;
+using VkNet.Enums;
 using VkNet.Model;
 using VkNet.Model.GroupUpdate;
 using VkNet.Model.RequestParams;
@@ -92,9 +92,17 @@ namespace DPTTS
                     {
                         var s = new LongPollServerResponse();
                         s = api.Groups.GetLongPollServer(Convert.ToUInt64(GroupID));
-                        var poll = api.Groups.GetBotsLongPollHistory(
+                        /*var poll = api.Groups.GetBotsLongPollHistory(
                         new BotsLongPollHistoryParams()
-                        { Server = s.Server, Key = s.Key, Ts = s.Ts, Wait = 25 });
+                        { Server = s.Server, Key = s.Key, Ts = s.Ts, Wait = 25 });*/
+
+                        var poll = api.Groups.GetBotsLongPollHistory(new BotsLongPollHistoryParams
+                        {
+                            Key = s.Key,
+                            Server = s.Server,
+                            Ts = s.Ts,
+                            Wait = 25
+                        });
                         var update = poll.Updates.FirstOrDefault();
                         var messageNew = update.MessageNew;
                         var message = messageNew?.Message;
@@ -105,7 +113,8 @@ namespace DPTTS
                         {
                             if (a.Type == GroupUpdateType.MessageNew)
                             {*/
-                                string userMessage = a.Message.Body.ToLower(); // ERROR: NullReferenceException
+                                string userMessage = new MessageNew().ToString(); // ERROR: NullReferenceException
+                                userMessage = a.Message.Text.ToLower();
                                 long? peerId = a.Message.PeerId - Convert.ToInt32(2000000000.0);
                                 Console.ForegroundColor = ConsoleColor.DarkBlue;
                                 Trace.WriteLine("[DEBUG] Сообщение получено от ID: " + peerId + "\nСообщение: " + a.Message.Body);
