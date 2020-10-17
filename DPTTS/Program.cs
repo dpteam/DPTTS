@@ -25,6 +25,7 @@ namespace DPTTS
             Console.BackgroundColor = ConsoleColor.Black;
             Console.ForegroundColor = ConsoleColor.White;
             // Ядро (WIP)
+            Console.ForegroundColor = ConsoleColor.Magenta;
             Console.WriteLine("[CORE] Инициализация ядра");
             Console.WriteLine("[CORE] Загрузка кода");
             // Загрузка всего кода в ОЗУ (оптимизация процесса)
@@ -36,11 +37,13 @@ namespace DPTTS
             if (ConfigManager.LoggingEnabled == true)
             {
                 Trace.Listeners.Add(new TextWriterTraceListener(System.IO.Path.GetFileNameWithoutExtension(typeof(Program).Assembly.GetName().Name) + ".log"));
+                Console.ForegroundColor = ConsoleColor.White;
                 Trace.WriteLine("[INFO] Логирование включено и активно");
             }
             // Задаем высокий приоритет процесса
             Process currentProcess = Process.GetCurrentProcess();
             currentProcess.PriorityClass = ProcessPriorityClass.High;
+            Console.ForegroundColor = ConsoleColor.DarkBlue;
             Trace.WriteLine("[DEBUG] Инициализация завершена, запуск сервера");
             try
             {
@@ -48,16 +51,30 @@ namespace DPTTS
                 //Trace.WriteLine("[INFO] Идет загрузка конфига");
                 // Work in Progress...
                 //ConfigReader.Config_Read();
+                if (System.IO.File.Exists("DPTTS.INI"))
+                {
+                    Console.ForegroundColor = ConsoleColor.DarkBlue;
+                    Trace.WriteLine("[DEBUG] Конфигурционный файл найден");
+                }
+                else
+                {
+                    Console.ForegroundColor = ConsoleColor.Red;
+                    Trace.WriteLine("[ERROR] Конфигурционный файл не найден, следуйте документации");
+                    Console.ReadKey();
+                }
                 IniFile INI = new IniFile("DPTTS.INI");
 
                 // Авторизация
+                Console.ForegroundColor = ConsoleColor.White;
                 Trace.WriteLine("[INFO] Идет авторизация");
                 api.Authorize(new ApiAuthParams() { AccessToken = (string)INI.ReadINI("DPTTS", "Token")});
                 // Debug Show Token
                 //Trace.Write((string)INI.ReadINI("DPTTS", "Token"));
                 string GroupID = INI.ReadINI("DPTTS", "GroupID");
                 string SecretKey = INI.ReadINI("DPTTS", "SecretKey");
+                Console.ForegroundColor = ConsoleColor.White;
                 Trace.WriteLine("[INFO] Авторизация завершена");
+                Console.ForegroundColor = ConsoleColor.DarkBlue;
                 Trace.WriteLine("[DEBUG] Начинаем взаимодействие с ВК");
                 // Меняем версию API
                 //api.VkApiVersion.SetVersion(5, 124);
@@ -90,15 +107,18 @@ namespace DPTTS
                             {
                                 string userMessage = a.Message.Text.ToLower(); // ERROR: NullReferenceException
                                 long? peerId = a.Message.PeerId - Convert.ToInt32(2000000000.0);
+                                Console.ForegroundColor = ConsoleColor.DarkBlue;
                                 Trace.WriteLine("[DEBUG] Сообщение получено от ID: " + peerId + "\nСообщение: " + a.Message.Body);
                                 var payload = a.Message.Payload; // Что это блять
                                 if (userMessage == "привет")
                                 {
                                     MessagesManager.SendMessage("Здарова!", peerId);
+                                    Console.ForegroundColor = ConsoleColor.DarkBlue;
                                     Trace.WriteLine("[DEBUG] Сообщение отправлено пользователю с ID: " + peerId);
                                 }
                                 else
                                 {
+                                    Console.ForegroundColor = ConsoleColor.DarkBlue;
                                     Trace.WriteLine("[DEBUG] Пришло неизвестное сообщение от пользователя: " + peerId + "\nСообщение: " + userMessage);
                                 }
                             }
@@ -106,7 +126,8 @@ namespace DPTTS
                     }
                     catch (Exception e)
                     {
-                        Trace.WriteLine(e.Message);
+                        Console.ForegroundColor = ConsoleColor.DarkRed;
+                        Trace.WriteLine("[FATAL] " + e.Message);
                     }
                 }
             }
@@ -115,7 +136,8 @@ namespace DPTTS
                 try
                 {
                     MessageBox.Show(value.ToString(), "Error");
-                    Trace.WriteLine("[ERROR] " + value.ToString());
+                    Console.ForegroundColor = ConsoleColor.DarkRed;
+                    Trace.WriteLine("[FATAL] " + value.ToString());
                     Console.ReadKey();
                 }
                 catch
