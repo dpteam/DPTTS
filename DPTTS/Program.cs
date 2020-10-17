@@ -85,27 +85,27 @@ namespace DPTTS
                 // Рандом для значения Ts (временно)
                 Random random = new Random();
                 int randomTs = random.Next();
-
                 // Long Poll
-                var s = new LongPollServerResponse();
-                s = api.Groups.GetLongPollServer(Convert.ToUInt64(GroupID));
-                var poll = api.Groups.GetBotsLongPollHistory(
-                new BotsLongPollHistoryParams()
-                { Server = s.Server, Key = s.Key, Ts = s.Ts, Wait = 25 });
-                var update = poll.Updates.First();
-                var messageNew = update.MessageNew;
-                var message = messageNew?.Message;
-                var clientInfo = messageNew?.ClientInfo;
                 while (true) // Бесконечный цикл, получение обновлений
                 {
                     try
                     {
-                        if (poll?.Updates == null) continue; //если обновлений нет, ждём
+                        var s = new LongPollServerResponse();
+                        s = api.Groups.GetLongPollServer(Convert.ToUInt64(GroupID));
+                        var poll = api.Groups.GetBotsLongPollHistory(
+                        new BotsLongPollHistoryParams()
+                        { Server = s.Server, Key = s.Key, Ts = s.Ts, Wait = 25 });
+                        var update = poll.Updates.FirstOrDefault();
+                        var messageNew = update.MessageNew;
+                        var message = messageNew?.Message;
+                        var clientInfo = messageNew?.ClientInfo;
+                        var a = update;
+                        /*if (poll?.Updates == null) continue; //если обновлений нет, ждём
                         foreach (var a in poll.Updates) //если есть, ищем среди них сообщение
                         {
                             if (a.Type == GroupUpdateType.MessageNew)
-                            {
-                                string userMessage = a.Message.Text.ToLower(); // ERROR: NullReferenceException
+                            {*/
+                                string userMessage = a.Message.Body.ToLower(); // ERROR: NullReferenceException
                                 long? peerId = a.Message.PeerId - Convert.ToInt32(2000000000.0);
                                 Console.ForegroundColor = ConsoleColor.DarkBlue;
                                 Trace.WriteLine("[DEBUG] Сообщение получено от ID: " + peerId + "\nСообщение: " + a.Message.Body);
@@ -121,8 +121,8 @@ namespace DPTTS
                                     Console.ForegroundColor = ConsoleColor.DarkBlue;
                                     Trace.WriteLine("[DEBUG] Пришло неизвестное сообщение от пользователя: " + peerId + "\nСообщение: " + userMessage);
                                 }
-                            }
-                        }
+                            //}
+                        //}
                     }
                     catch (Exception e)
                     {
