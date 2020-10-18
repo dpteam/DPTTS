@@ -111,9 +111,9 @@ namespace DPTTS
                         if (poll?.Updates == null) continue; //если обновлений нет, ждём
                         foreach (var a in poll.Updates) //если есть, ищем среди них сообщение
                         {
-                            if (a.Type == VkNet.Model.GroupUpdate.MessageNew)
-                            {
-                                string userMessage = new MessageNew().ToString(); // ERROR: NullReferenceException
+                            //if (a.Type == MessageNew)
+                            //{
+                                string userMessage = new VkNet.Model.GroupUpdate.MessageNew().ToString(); // ERROR: NullReferenceException
                                 userMessage = a.MessageNew.Message.Text.ToLower();
                                 long? peerId = a.Message.PeerId - Convert.ToInt32(2000000000.0);
                                 Console.ForegroundColor = ConsoleColor.DarkBlue;
@@ -130,7 +130,7 @@ namespace DPTTS
                                     Console.ForegroundColor = ConsoleColor.DarkBlue;
                                     Trace.WriteLine("[DEBUG] Пришло неизвестное сообщение от пользователя: " + peerId + "\nСообщение: " + userMessage);
                                 }
-                            }
+                            //}
                         }
                     }
                     catch (Exception e)
