@@ -111,7 +111,7 @@ namespace DPTTS
                         if (poll?.Updates == null) continue; //если обновлений нет, ждём
                         foreach (var a in poll.Updates) //если есть, ищем среди них сообщение
                         {
-                            if (a.Type == GroupUpdate.MessageNew)
+                            if (a.Type == VkNet.Model.GroupUpdate.MessageNew)
                             {
                                 string userMessage = new MessageNew().ToString(); // ERROR: NullReferenceException
                                 userMessage = a.MessageNew.Message.Text.ToLower();
