@@ -1,4 +1,4 @@
-﻿using DPTTS.BotCmds;
+using DPTTS.BotCmds;
 using DPTTS.Config;
 using System;
 using System.Diagnostics;
@@ -107,18 +107,18 @@ namespace DPTTS
                         var messageNew = update.MessageNew;
                         var message = messageNew?.Message;
                         var clientInfo = messageNew?.ClientInfo;
-                        var a = update;
-                        /*if (poll?.Updates == null) continue; //если обновлений нет, ждём
+                        //var a = update;
+                        if (poll?.Updates == null) continue; //если обновлений нет, ждём
                         foreach (var a in poll.Updates) //если есть, ищем среди них сообщение
                         {
                             if (a.Type == GroupUpdateType.MessageNew)
-                            {*/
+                            {
                                 string userMessage = new MessageNew().ToString(); // ERROR: NullReferenceException
-                                userMessage = a.Message.Text.ToLower();
+                                userMessage = a.MessageNew.Message.Text.ToLower();
                                 long? peerId = a.Message.PeerId - Convert.ToInt32(2000000000.0);
                                 Console.ForegroundColor = ConsoleColor.DarkBlue;
                                 Trace.WriteLine("[DEBUG] Сообщение получено от ID: " + peerId + "\nСообщение: " + a.Message.Body);
-                                var payload = a.Message.Payload; // Что это блять
+                                var payload = a.Message.Payload;
                                 if (userMessage == "привет")
                                 {
                                     MessagesManager.SendMessage("Здарова!", peerId);
@@ -130,8 +130,8 @@ namespace DPTTS
                                     Console.ForegroundColor = ConsoleColor.DarkBlue;
                                     Trace.WriteLine("[DEBUG] Пришло неизвестное сообщение от пользователя: " + peerId + "\nСообщение: " + userMessage);
                                 }
-                            //}
-                        //}
+                            }
+                        }
                     }
                     catch (Exception e)
                     {
