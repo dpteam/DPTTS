@@ -1,4 +1,4 @@
-﻿using System.Windows.Forms;
+﻿using System;
 
 namespace DPTTS.Config
 {
@@ -12,7 +12,7 @@ namespace DPTTS.Config
             else
                 ConfigManager.Token = "";
 
-            MessageBox.Show("Настройки загружены", "Информация", MessageBoxButtons.OK, MessageBoxIcon.Asterisk); // Говорим пользователю, что загрузили конфиг.
+            Console.WriteLine("[INFO] Настройки загружены"); // Говорим пользователю, что загрузили конфиг.
         }
     }
 }

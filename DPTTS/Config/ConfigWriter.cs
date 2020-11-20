@@ -1,4 +1,4 @@
-﻿using System.Windows.Forms;
+﻿using System;
 
 namespace DPTTS.Config
 {
@@ -8,7 +8,7 @@ namespace DPTTS.Config
         {
             IniFile INI = new IniFile("config.ini");
             INI.Write("DPTTS", "Token", ConfigManager.Token);
-            MessageBox.Show("Настройки сохранены", "Информация", MessageBoxButtons.OK, MessageBoxIcon.Asterisk); // Говорим пользователю, что сохранили конфиг.
+            Console.WriteLine("[INFO] Настройки сохранены");
         }
     }
 }

@@ -2,12 +2,8 @@ using DPTTS.BotCmds;
 using DPTTS.Config;
 using System;
 using System.Diagnostics;
-using System.Linq;
 using System.Runtime.InteropServices;
-using System.Threading;
-using System.Windows;
 using VkNet;
-using VkNet.Enums;
 using VkNet.Model;
 using VkNet.Model.GroupUpdate;
 using VkNet.Model.RequestParams;
@@ -66,6 +62,9 @@ namespace DPTTS
                 }
                 IniFile INI = new IniFile("DPTTS.INI");
 
+                // Меняем версию API
+                api.VkApiVersion.SetVersion(5, 103);
+				
                 // Авторизация
                 Console.ForegroundColor = ConsoleColor.White;
                 Trace.WriteLine("[INFO] Идет авторизация");
@@ -78,8 +77,6 @@ namespace DPTTS
                 Trace.WriteLine("[INFO] Авторизация завершена");
                 Console.ForegroundColor = ConsoleColor.DarkBlue;
                 Trace.WriteLine("[DEBUG] Начинаем взаимодействие с ВК");
-                // Меняем версию API
-                //api.VkApiVersion.SetVersion(5, 124);
 
                 // Ограничитель времени отправки запроса для цикла (временно)
                 //Thread.Sleep(100);
@@ -104,7 +101,7 @@ namespace DPTTS
                         string userMessage = new MessageNew().ToString().ToLower();
                         long? peerId = Message.PeerId - Convert.ToInt32(2000000000.0);
                         Console.ForegroundColor = ConsoleColor.DarkBlue;
-                        Trace.WriteLine("[DEBUG] Сообщение получено от ID: " + peerId + "\nСообщение: " + Message.Body);
+                        Trace.WriteLine("[DEBUG] Сообщение получено от ID: " + peerId + "\nСообщение: " + Message.Text);
                         var payload = Message.Payload;
                         if (userMessage == "привет")
                         {
@@ -129,7 +126,7 @@ namespace DPTTS
             {
                 try
                 {
-                    MessageBox.Show(value.ToString(), "Error");
+                    //MessageBox.Show(value.ToString(), "Error");
                     Console.ForegroundColor = ConsoleColor.DarkRed;
                     Trace.WriteLine("[FATAL] " + value.ToString());
                     Console.ReadKey();

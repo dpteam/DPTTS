@@ -1,2 +1,3 @@
-# DPTTS
-CSharp VK Bot
+# DPT.Proxima (Бывш. DPTTS)
+
+Экспериментальный ИИ-бот для ВКонтакте на C#
