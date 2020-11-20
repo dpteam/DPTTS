@@ -2,9 +2,9 @@ name: Build
 
 on:
   push:
-    branches: [ netcore ]
+    branches: [ net5 ]
   pull_request:
-    branches: [ netcore ]
+    branches: [ net5 ]
 
 jobs:
   build:
